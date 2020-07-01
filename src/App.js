@@ -24,10 +24,23 @@ class App extends Component {
       },
     ],
   };
+
+  //Using SetState to remove a contact
+  removeContact = (contact) => {
+    //receives the contact argurment after click
+    this.setState((currentState) => ({
+      //set state with currentState arg
+      contacts: currentState.contacts.filter((c) => c.id !== contact.id),
+    })); //Filter returns all contacts except the one clicked in new array
+  };
+
   render() {
     return (
       <div>
-        <ListContacts contacts={this.state.contacts} />
+        <ListContacts //onDeleteContact is accessed by ListContacts
+          onDeleteContact={this.removeContact} //inturn calls on removeContact
+          contacts={this.state.contacts}
+        />
       </div>
     );
   }
