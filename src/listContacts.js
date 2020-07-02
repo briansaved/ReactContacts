@@ -26,6 +26,14 @@ class ListContacts extends Component {
     const { query } = this.state; //destructures
     const { contacts, onDeleteContact } = this.props;
 
+    const showingContacts =
+      query === "" //if nothing in the search field
+        ? contacts //showingContacts will be equal to contacts
+        : contacts.filter((
+            c //else filter each contact
+          ) => c.name.toLowerCase().includes(query.toLowerCase()));
+    //which includes the query in lowercase in the name!
+
     return (
       <div className="list-contacts">
         {/* {JSON.stringify(this.state)} To monitor real time state*/}
@@ -39,7 +47,9 @@ class ListContacts extends Component {
           />
         </div>
         <ol className="contactList">
-          {contacts.map((contact) => (
+          {showingContacts.map((
+            contact //mapping over showinContacts instead of contacts
+          ) => (
             <li key={contact.id} className="contact-list-item">
               <div
                 className="contact-avatar"
