@@ -21,6 +21,11 @@ class ListContacts extends Component {
   };
 
   render() {
+    //with the below, we dont have to write this.state.query
+    //in the code anymore, or this.props.contacts etc
+    const { query } = this.state; //destructures
+    const { contacts, onDeleteContact } = this.props;
+
     return (
       <div className="list-contacts">
         {/* {JSON.stringify(this.state)} To monitor real time state*/}
@@ -29,12 +34,12 @@ class ListContacts extends Component {
             className="search-contacts"
             type="text"
             placeholder="Search Contact"
-            value={this.state.query} //The Value of the field determined by state
+            value={query} //The Value of the field determined by state
             onChange={(event) => this.updateState(event.target.value)} //method
           />
         </div>
         <ol className="contactList">
-          {this.props.contacts.map((contact) => (
+          {contacts.map((contact) => (
             <li key={contact.id} className="contact-list-item">
               <div
                 className="contact-avatar"
@@ -47,7 +52,7 @@ class ListContacts extends Component {
                 <p>{contact.handle}</p>
               </div>
               <button
-                onClick={() => this.props.onDeleteContact(contact)} //click calls onDelete
+                onClick={() => onDeleteContact(contact)} //click calls onDelete
                 className="contact-remove"
               >
                 Remove
