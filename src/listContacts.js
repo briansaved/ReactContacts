@@ -20,6 +20,10 @@ class ListContacts extends Component {
     }));
   };
 
+  clearQuery = () => {
+    this.updateState("");
+  };
+
   render() {
     //with the below, we dont have to write this.state.query
     //in the code anymore, or this.props.contacts etc
@@ -46,6 +50,15 @@ class ListContacts extends Component {
             onChange={(event) => this.updateState(event.target.value)} //method
           />
         </div>
+
+        {showingContacts.length !== contacts.length && (
+          <div className="showing-contacts">
+            <span>
+              Now showing {showingContacts.length} of {contacts.length}
+            </span>
+            <button onClick={this.clearQuery}>Show all</button>
+          </div>
+        )}
         <ol className="contactList">
           {showingContacts.map((
             contact //mapping over showinContacts instead of contacts
