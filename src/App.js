@@ -24,6 +24,8 @@ class App extends Component {
       //set state with currentState arg
       contacts: currentState.contacts.filter((c) => c.id !== contact.id),
     })); //Filter returns all contacts except the one clicked in new array
+    //Remove method now removes contact from both state and from Backend API
+    ContactsAPI.remove(contact); //simply by adding this line
   };
 
   render() {
