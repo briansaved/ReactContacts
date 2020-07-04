@@ -1,30 +1,22 @@
 import React, { Component } from "react";
 import ListContacts from "./listContacts";
+import * as ContactsAPI from "./utils/ContactsAPI";
 
 class App extends Component {
   state = {
-    contacts: [
-      {
-        id: "karen",
-        name: "Karen Isgrigg",
-        handle: "@karen_isgrigg",
-        avatarURL: "http://localhost:5001/karen.jpg",
-      },
-      {
-        id: "richard",
-        name: "Richard Kalehoff",
-        handle: "@richardkalehoff",
-        avatarURL: "http://localhost:5001/richard.jpg",
-      },
-      {
-        id: "tyler",
-        name: "Takudzwa Chidarikire",
-        handle: "@tylermcginnis",
-        avatarURL: "http://localhost:5001/tyler.jpg",
-      },
-    ],
+    contacts: [],
   };
 
+  //API Fetch request is put in the method compDidMount instead of living in State
+  componentDidMount() {
+    ContactsAPI.getAll().then((contacts) => {
+      //API Call made returns a Promise
+      this.setState({
+        //The data is then set in state
+        contacts,
+      });
+    });
+  }
   //Using SetState to remove a contact
   removeContact = (contact) => {
     //receives the contact argurment after click
