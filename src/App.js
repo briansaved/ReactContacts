@@ -1,10 +1,12 @@
 import React, { Component } from "react";
 import ListContacts from "./listContacts";
 import * as ContactsAPI from "./utils/ContactsAPI";
+import CreateContact from "./CreateContact";
 
 class App extends Component {
   state = {
     contacts: [],
+    screen: "list", //added a key to use for state display to add contact
   };
 
   //API Fetch request is put in the method compDidMount instead of living in State
@@ -31,11 +33,20 @@ class App extends Component {
   render() {
     return (
       <div>
-        <ListContacts //onDeleteContact is accessed by ListContacts
-          onDeleteContact={this.removeContact} //inturn calls on removeContact
-          contacts={this.state.contacts}
-        />
-      </div>
+        {this.state.screen === "list" && ( //condition met for list display
+          <ListContacts //onDeleteContact is accessed by ListContacts
+            onDeleteContact={this.removeContact} //inturn calls on removeContact
+            contacts={this.state.contacts}
+            onNavigate={() => {
+              //The Prop that is accessed from List contact
+              this.setState(() => ({
+                screen: "create", //on click, sets state to trigger UI for add
+              }));
+            }}
+          />
+        )}
+        {this.state.screen === "create" && <CreateContact />}
+      </div> //condition above for creating contact instead
     );
   }
 }

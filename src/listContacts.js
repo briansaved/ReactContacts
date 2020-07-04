@@ -28,7 +28,7 @@ class ListContacts extends Component {
     //with the below, we dont have to write this.state.query
     //in the code anymore, or this.props.contacts etc
     const { query } = this.state; //destructures
-    const { contacts, onDeleteContact } = this.props;
+    const { contacts, onDeleteContact, onNavigate } = this.props;
 
     const showingContacts =
       query === "" //if nothing in the search field
@@ -49,6 +49,10 @@ class ListContacts extends Component {
             value={query} //The Value of the field determined by state
             onChange={(event) => this.updateState(event.target.value)} //method
           />
+          {/* Link BUtton that take the app to the add contact UI Component */}
+          <a href="#create" className="add-contact" onClick={onNavigate}>
+            Add Contact
+          </a>
         </div>
 
         {showingContacts.length !== contacts.length && (
