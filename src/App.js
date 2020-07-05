@@ -2,11 +2,12 @@ import React, { Component } from "react";
 import ListContacts from "./listContacts";
 import * as ContactsAPI from "./utils/ContactsAPI";
 import CreateContact from "./CreateContact";
+import { Route } from "react-router-dom";
 
 class App extends Component {
   state = {
     contacts: [],
-    screen: "list", //added a key to use for state display to add contact
+    // screen: "list", //added a key to use for state display //not needed now
   };
 
   //API Fetch request is put in the method compDidMount instead of living in State
@@ -33,19 +34,26 @@ class App extends Component {
   render() {
     return (
       <div>
-        {this.state.screen === "list" && ( //condition met for list display
-          <ListContacts //onDeleteContact is accessed by ListContacts
-            onDeleteContact={this.removeContact} //inturn calls on removeContact
-            contacts={this.state.contacts}
-            onNavigate={() => {
-              //The Prop that is accessed from List contact
-              this.setState(() => ({
-                screen: "create", //on click, sets state to trigger UI for add
-              }));
-            }}
-          />
-        )}
-        {this.state.screen === "create" && <CreateContact />}
+        <Route
+          exact //gets exact match and not partial match
+          path="/" //path to navigate
+          render={() => (
+            //what to render when the path matches exactlt
+            <ListContacts
+              onDeleteContact={this.removeContact}
+              contacts={this.state.contacts}
+              // onNavigate={() => {
+              //   //The Prop that is accessed from List contact
+              //   this.setState(() => ({
+              //     screen: "create", //on click, sets state to trigger UI for add
+              //   }));
+              // }} //not require anymore. React router handling changes
+            />
+          )}
+        />
+        {/* Component below is rendered directly coz no props are passed into it */}
+        <Route path="/create" component={CreateContact} />
+        {/* {this.state.screen === "create" && <CreateContact />} */}
       </div> //condition above for creating contact instead
     );
   }
