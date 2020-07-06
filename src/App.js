@@ -31,6 +31,14 @@ class App extends Component {
     ContactsAPI.remove(contact); //simply by adding this line
   };
 
+  createContact = (contact) => {
+    ContactsAPI.create(contact).then((contact) => {
+      this.setState((currentState) => ({
+        contacts: currentState.contacts.concat(contact),
+      }));
+    });
+  };
+
   render() {
     return (
       <div>
@@ -52,7 +60,17 @@ class App extends Component {
           )}
         />
         {/* Component below is rendered directly coz no props are passed into it */}
-        <Route path="/create" component={CreateContact} />
+        <Route
+          path="/create"
+          /*component={CreateContact}*/ render={({ history }) => (
+            <CreateContact
+              onCreateContact={(contact) => {
+                this.createContact(contact);
+                history.push("/");
+              }}
+            />
+          )}
+        />
         {/* {this.state.screen === "create" && <CreateContact />} */}
       </div> //condition above for creating contact instead
     );
